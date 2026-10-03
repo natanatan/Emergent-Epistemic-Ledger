@@ -1,0 +1,7 @@
+# Submitted by a validator identity, e.g. `eel --identity VAL-A validate ...`.
+validation_id: VALID-0001
+validator: VAL-A
+target: { kind: evidence, id: EV-0001 }
+validation_type: ARTIFACT_INTEGRITY
+outcome: PASS
+notes: The registered artifact's hash matches its content.

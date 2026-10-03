@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EventType",
+  "oneOf": [
+    {
+      "type": "string",
+      "enum": [
+        "IDENTITY_REGISTER",
+        "CLAIM_CREATE",
+        "CLAIM_REVISE",
+        "CLAIM_SUPERSEDE",
+        "EVIDENCE_ADD",
+        "EVIDENCE_RETRACT",
+        "OBJECTION_ADD",
+        "OBJECTION_REPLY",
+        "REPLICATION_REGISTER",
+        "REPLICATION_RESULT",
+        "VALIDATION_SUBMIT",
+        "BRANCH_CREATE",
+        "BRANCH_MERGE_PROPOSE",
+        "CANONICALIZATION_PROPOSE",
+        "CANONICALIZATION_ACCEPT",
+        "CANONICALIZATION_REJECT",
+        "ARTIFACT_REGISTER",
+        "SIMULATION_DEFINE",
+        "SIMULATION_RESULT",
+        "SIMULATION_VERIFY",
+        "RESEARCH_REQUEST_CREATE",
+        "RESEARCH_REQUEST_SUPPORT",
+        "RESEARCH_RESULT_SUBMIT"
+      ]
+    },
+    {
+      "description": "Not in the specification's event list; required by the `POST /xchange/assets` endpoint (decisions D-025).",
+      "type": "string",
+      "enum": [
+        "XCHANGE_ASSET_REGISTER"
+      ]
+    }
+  ]
+}

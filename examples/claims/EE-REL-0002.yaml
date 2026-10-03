@@ -1,0 +1,9 @@
+claim_id: EE-REL-0002
+title: Relation
+statement: >
+  Distinctions stand in relations, and a relation is itself a distinction
+  between related and unrelated pairs.
+claim_type: [DEFINITION]
+ontology_level: relational
+domain: ontology
+dependencies: [EE-REL-0001]

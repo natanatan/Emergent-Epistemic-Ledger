@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchRequest",
+  "type": "object",
+  "required": [
+    "created_by",
+    "description",
+    "linked_claims",
+    "request_id",
+    "requested_work",
+    "title"
+  ],
+  "properties": {
+    "acceptance_conditions": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_by": {
+      "$ref": "#/definitions/Hash"
+    },
+    "description": {
+      "type": "string"
+    },
+    "linked_claims": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "requested_work": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ResearchWorkType"
+      }
+    },
+    "title": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ResearchWorkType": {
+      "type": "string",
+      "enum": [
+        "EXPERIMENT",
+        "REPLICATION",
+        "SIMULATION",
+        "FORMAL_REVIEW",
+        "LITERATURE_REVIEW",
+        "DATA_COLLECTION",
+        "COUNTERMODEL_SEARCH"
+      ]
+    }
+  }
+}

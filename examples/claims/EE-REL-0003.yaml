@@ -1,0 +1,19 @@
+claim_id: EE-REL-0003
+title: Persistence
+statement: >
+  Some relational configurations persist across updates of the relations
+  that compose them.
+claim_type: [PROPOSITION, HYPOTHESIS]
+ontology_level: relational
+domain: ontology
+dependencies: [EE-REL-0001, EE-REL-0002]
+ontological_defensibility:
+  required_entities: [relations, updates]
+  ontology_level: relational
+  lower_order_dependencies: [EE-REL-0002]
+  emergent_properties: [persistence]
+  claim_nature: [CONSTITUTIVE, EMPIRICAL]
+  new_primitives: []
+  lower_assumption_alternative: Persistence is an artifact of the observer's coarse-graining.
+  empirical_constraints: [Persistent structures appear in deterministic relational-graph simulations.]
+  failure_conditions: [No rule family yields structures that survive repeated local perturbation.]

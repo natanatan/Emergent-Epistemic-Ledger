@@ -1,0 +1,18 @@
+# A small job with no linked claims (validators need the `general` domain).
+job_id: SIM-BASIC
+ruleset:
+  coupling_divisor: 6
+  self_retention_permille: 850
+  perturbation_permille: 30
+  perturbation_magnitude: 150
+  state_bound: 1000
+  persistence_threshold: 250
+  memory_length: 4
+initial_conditions:
+  vertices: 16
+  edge_permille: 150
+  weight_bound: 3
+  initial_state_bound: 1000
+seed_start: 1
+seed_end: 1
+steps: 100

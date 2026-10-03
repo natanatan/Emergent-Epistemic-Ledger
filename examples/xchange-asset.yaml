@@ -1,0 +1,8 @@
+asset_id: ASSET-0001
+asset_type: DATASET
+ontology_links:
+  - { kind: claim, id: EE-REL-0003 }
+access_terms:
+  license: CC-BY-4.0
+  open_access: true
+  conditions: [cite the ledger event that registered this asset]

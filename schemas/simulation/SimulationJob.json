@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SimulationJob",
+  "type": "object",
+  "required": [
+    "engine_version",
+    "initial_conditions_hash",
+    "job_id",
+    "metrics",
+    "ruleset_hash",
+    "seed_end",
+    "seed_start",
+    "steps"
+  ],
+  "properties": {
+    "engine_version": {
+      "type": "string"
+    },
+    "initial_conditions_hash": {
+      "$ref": "#/definitions/Hash"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "linked_claims": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SimulationMetric"
+      }
+    },
+    "ruleset_hash": {
+      "$ref": "#/definitions/Hash"
+    },
+    "seed_end": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "seed_start": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "steps": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    }
+  },
+  "definitions": {
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "SimulationMetric": {
+      "type": "string",
+      "enum": [
+        "LIFESPAN",
+        "STRUCTURAL_PERSISTENCE",
+        "PERTURBATION_RESISTANCE",
+        "RECURRENCE",
+        "COMPRESSION_RATIO",
+        "RECURSIVE_COMPOSABILITY"
+      ]
+    }
+  }
+}

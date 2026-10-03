@@ -1,0 +1,26 @@
+# `eel sim run examples/simulation.yaml` defines SIM-0001 and runs every seed.
+job_id: SIM-0001
+linked_claims: [EE-REL-0003]
+ruleset:
+  coupling_divisor: 8
+  self_retention_permille: 900
+  perturbation_permille: 50
+  perturbation_magnitude: 200
+  state_bound: 1000
+  persistence_threshold: 300
+  memory_length: 5
+initial_conditions:
+  vertices: 32
+  edge_permille: 120
+  weight_bound: 4
+  initial_state_bound: 1000
+seed_start: 1
+seed_end: 3
+steps: 200
+metrics:
+  - LIFESPAN
+  - STRUCTURAL_PERSISTENCE
+  - PERTURBATION_RESISTANCE
+  - RECURRENCE
+  - COMPRESSION_RATIO
+  - RECURSIVE_COMPOSABILITY

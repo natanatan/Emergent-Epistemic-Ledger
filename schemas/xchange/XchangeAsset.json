@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "XchangeAsset",
+  "type": "object",
+  "required": [
+    "access_terms",
+    "asset_id",
+    "asset_type",
+    "provider"
+  ],
+  "properties": {
+    "access_terms": {
+      "$ref": "#/definitions/AccessTerms"
+    },
+    "artifact_ref": {
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Hash"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "asset_id": {
+      "type": "string"
+    },
+    "asset_type": {
+      "$ref": "#/definitions/XchangeAssetType"
+    },
+    "ontology_links": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ObjectId"
+      }
+    },
+    "provider": {
+      "$ref": "#/definitions/Hash"
+    }
+  },
+  "definitions": {
+    "AccessTerms": {
+      "description": "Terms under which an asset is offered. Free text in the MVP (decisions D-026).",
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "license": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "open_access": {
+          "default": false,
+          "type": "boolean"
+        }
+      }
+    },
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ObjectId": {
+      "description": "A typed reference to any protocol object.",
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/ObjectKind"
+        }
+      }
+    },
+    "ObjectKind": {
+      "description": "Kind of object an [`ObjectId`] points to.",
+      "type": "string",
+      "enum": [
+        "claim",
+        "evidence",
+        "objection",
+        "replication",
+        "artifact",
+        "validation",
+        "simulation_job",
+        "simulation_result",
+        "research_request",
+        "research_result",
+        "xchange_asset",
+        "branch",
+        "identity"
+      ]
+    },
+    "XchangeAssetType": {
+      "type": "string",
+      "enum": [
+        "PAPER",
+        "DATASET",
+        "EVIDENCE",
+        "COMPUTE",
+        "REVIEW_LABOR",
+        "REPLICATION_LABOR",
+        "SIMULATION",
+        "MODEL",
+        "PROTOCOL"
+      ]
+    }
+  }
+}

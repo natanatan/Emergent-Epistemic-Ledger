@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ruleset",
+  "description": "Integer parameters of the relational graph engine's update rule.",
+  "type": "object",
+  "required": [
+    "coupling_divisor",
+    "memory_length",
+    "persistence_threshold",
+    "perturbation_magnitude",
+    "perturbation_permille",
+    "self_retention_permille",
+    "state_bound"
+  ],
+  "properties": {
+    "coupling_divisor": {
+      "description": "Divisor applied to the weighted neighbour sum.",
+      "type": "integer",
+      "format": "int64"
+    },
+    "memory_length": {
+      "description": "Number of past states each vertex remembers.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "persistence_threshold": {
+      "description": "A vertex is persistent when |state| >= this for the whole memory window.",
+      "type": "integer",
+      "format": "int64"
+    },
+    "perturbation_magnitude": {
+      "description": "Maximum absolute size of a perturbation.",
+      "type": "integer",
+      "format": "int64"
+    },
+    "perturbation_permille": {
+      "description": "Probability (permille) that a vertex is perturbed in a step.",
+      "type": "integer",
+      "format": "int64"
+    },
+    "self_retention_permille": {
+      "description": "Retention of a vertex's own state, in permille.",
+      "type": "integer",
+      "format": "int64"
+    },
+    "state_bound": {
+      "description": "States are clamped to [-state_bound, state_bound].",
+      "type": "integer",
+      "format": "int64"
+    }
+  }
+}

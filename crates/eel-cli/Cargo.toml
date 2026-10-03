@@ -1,0 +1,30 @@
+[package]
+name = "eel-cli"
+description = "Command-line interface for the Emergent Epistemic Ledger"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "eel"
+path = "src/main.rs"
+
+[dependencies]
+eel-core.workspace = true
+eel-crypto.workspace = true
+eel-ledger.workspace = true
+eel-ontology.workspace = true
+eel-simulation.workspace = true
+eel-storage.workspace = true
+eel-xchange.workspace = true
+eel-api.workspace = true
+clap.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+schemars.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

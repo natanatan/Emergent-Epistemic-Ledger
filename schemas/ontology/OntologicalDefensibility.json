@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OntologicalDefensibility",
+  "description": "Optional, extensible record of a claim's ontological commitments.",
+  "type": "object",
+  "properties": {
+    "claim_nature": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ClaimNature"
+      }
+    },
+    "emergent_properties": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "empirical_constraints": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "description": "Additional fields for later extensions; kept so that nothing is lost.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "failure_conditions": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "lower_assumption_alternative": {
+      "default": null,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "lower_order_dependencies": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "new_primitives": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ontology_level": {
+      "default": "",
+      "type": "string"
+    },
+    "required_entities": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "definitions": {
+    "ClaimNature": {
+      "description": "The role a claim plays (decisions D-010).",
+      "type": "string",
+      "enum": [
+        "CONSTITUTIVE",
+        "REPRESENTATIONAL",
+        "DIAGNOSTIC",
+        "EMPIRICAL",
+        "FORMAL",
+        "INTERPRETIVE"
+      ]
+    }
+  }
+}

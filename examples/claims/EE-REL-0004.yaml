@@ -1,0 +1,9 @@
+claim_id: EE-REL-0004
+title: Boundary
+statement: >
+  A persistent configuration has a boundary where its internal relations are
+  denser than its relations with what surrounds it.
+claim_type: [PROPOSITION]
+ontology_level: relational
+domain: ontology
+dependencies: [EE-REL-0003]

@@ -1,0 +1,8 @@
+# `eel research result submit examples/result.yaml`
+request_id: REQ-0001
+outcome: NULL
+methodology: >
+  Ran SIM-0001 seeds 1-3 with the registered ruleset; persistence appeared,
+  but not more often than in a shuffled-edge control, so the run neither
+  supports nor contradicts EE-REL-0003.
+linked_claims: [EE-REL-0003]

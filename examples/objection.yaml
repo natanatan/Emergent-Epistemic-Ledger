@@ -1,0 +1,6 @@
+objection_id: OBJ-0001
+target: { kind: claim, id: EE-REL-0003 }
+severity: CRITICAL
+text: >
+  "Persist across updates" is presupposed rather than defined; what counts
+  as the same configuration after an update?

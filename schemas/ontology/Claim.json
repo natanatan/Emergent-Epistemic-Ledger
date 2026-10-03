@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Claim",
+  "description": "One version of a claim.",
+  "type": "object",
+  "required": [
+    "claim_id",
+    "claim_type",
+    "ontology_level",
+    "statement",
+    "status",
+    "title",
+    "version"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string"
+    },
+    "claim_type": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ClaimType"
+      }
+    },
+    "dependencies": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "domain": {
+      "description": "Domain used for validator authority (decisions D-012).",
+      "default": "general",
+      "type": "string"
+    },
+    "ontological_defensibility": {
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/definitions/OntologicalDefensibility"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ontology_level": {
+      "type": "string"
+    },
+    "statement": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/definitions/ClaimStatus"
+    },
+    "title": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    }
+  },
+  "definitions": {
+    "ClaimNature": {
+      "description": "The role a claim plays (decisions D-010).",
+      "type": "string",
+      "enum": [
+        "CONSTITUTIVE",
+        "REPRESENTATIONAL",
+        "DIAGNOSTIC",
+        "EMPIRICAL",
+        "FORMAL",
+        "INTERPRETIVE"
+      ]
+    },
+    "ClaimStatus": {
+      "description": "Procedural status of a claim. These are states of the epistemic process, never verdicts about truth.",
+      "type": "string",
+      "enum": [
+        "PROPOSED",
+        "CANDIDATE",
+        "SUPPORTED",
+        "ROBUST",
+        "CONTESTED",
+        "SUPERSEDED",
+        "FALSIFIED",
+        "RETIRED"
+      ]
+    },
+    "ClaimType": {
+      "description": "What kind of statement a claim is (decisions D-010).",
+      "type": "string",
+      "enum": [
+        "PROPOSITION",
+        "DEFINITION",
+        "CRITERION",
+        "HYPOTHESIS",
+        "PREDICTION",
+        "OBSERVATION",
+        "MODEL",
+        "METHOD",
+        "TEST"
+      ]
+    },
+    "OntologicalDefensibility": {
+      "description": "Optional, extensible record of a claim's ontological commitments.",
+      "type": "object",
+      "properties": {
+        "claim_nature": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClaimNature"
+          }
+        },
+        "emergent_properties": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "empirical_constraints": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "extensions": {
+          "description": "Additional fields for later extensions; kept so that nothing is lost.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "failure_conditions": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "lower_assumption_alternative": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lower_order_dependencies": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "new_primitives": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ontology_level": {
+          "default": "",
+          "type": "string"
+        },
+        "required_entities": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

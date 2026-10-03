@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResearchResult",
+  "type": "object",
+  "required": [
+    "methodology",
+    "outcome",
+    "request_id",
+    "submitted_by"
+  ],
+  "properties": {
+    "artifacts": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Hash"
+      }
+    },
+    "linked_claims": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "methodology": {
+      "type": "string"
+    },
+    "outcome": {
+      "$ref": "#/definitions/ResearchOutcome"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "submitted_by": {
+      "$ref": "#/definitions/Hash"
+    }
+  },
+  "definitions": {
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ResearchOutcome": {
+      "type": "string",
+      "enum": [
+        "SUPPORTING",
+        "CONTRADICTING",
+        "NULL",
+        "INCONCLUSIVE"
+      ]
+    }
+  }
+}

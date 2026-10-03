@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Replication",
+  "type": "object",
+  "required": [
+    "protocol",
+    "replication_id",
+    "target"
+  ],
+  "properties": {
+    "protocol": {
+      "type": "string"
+    },
+    "replication_id": {
+      "type": "string"
+    },
+    "target": {
+      "description": "The evidence or simulation result being replicated.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ObjectId"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "ObjectId": {
+      "description": "A typed reference to any protocol object.",
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/ObjectKind"
+        }
+      }
+    },
+    "ObjectKind": {
+      "description": "Kind of object an [`ObjectId`] points to.",
+      "type": "string",
+      "enum": [
+        "claim",
+        "evidence",
+        "objection",
+        "replication",
+        "artifact",
+        "validation",
+        "simulation_job",
+        "simulation_result",
+        "research_request",
+        "research_result",
+        "xchange_asset",
+        "branch",
+        "identity"
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+[package]
+name = "eel-validation"
+description = "Validator registry, admission policy, reputation interface and canonicalization rules for EEL"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+eel-core.workspace = true
+serde.workspace = true
+thiserror.workspace = true

@@ -1,0 +1,10 @@
+[package]
+name = "eel-xchange"
+description = "Research-market protocol structures for EEL (no payments, no currency)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+eel-core.workspace = true
+serde.workspace = true

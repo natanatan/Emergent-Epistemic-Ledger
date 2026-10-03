@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ValidationRecord",
+  "description": "A procedural validation. It states that something was done correctly, never that a claim is true.",
+  "type": "object",
+  "required": [
+    "outcome",
+    "target",
+    "validation_id",
+    "validation_type",
+    "validator"
+  ],
+  "properties": {
+    "notes": {
+      "default": null,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outcome": {
+      "$ref": "#/definitions/ValidationOutcome"
+    },
+    "target": {
+      "$ref": "#/definitions/ObjectId"
+    },
+    "validation_id": {
+      "type": "string"
+    },
+    "validation_type": {
+      "$ref": "#/definitions/ValidationType"
+    },
+    "validator": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "ObjectId": {
+      "description": "A typed reference to any protocol object.",
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/ObjectKind"
+        }
+      }
+    },
+    "ObjectKind": {
+      "description": "Kind of object an [`ObjectId`] points to.",
+      "type": "string",
+      "enum": [
+        "claim",
+        "evidence",
+        "objection",
+        "replication",
+        "artifact",
+        "validation",
+        "simulation_job",
+        "simulation_result",
+        "research_request",
+        "research_result",
+        "xchange_asset",
+        "branch",
+        "identity"
+      ]
+    },
+    "ValidationOutcome": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "INCONCLUSIVE"
+      ]
+    },
+    "ValidationType": {
+      "type": "string",
+      "enum": [
+        "METHOD_CONFORMANCE",
+        "ARTIFACT_INTEGRITY",
+        "SIMULATION_REPLAY",
+        "REPLICATION_CONFORMANCE",
+        "DATA_PROVENANCE"
+      ]
+    }
+  }
+}

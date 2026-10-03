@@ -1,0 +1,32 @@
+[package]
+name = "eel-api"
+description = "REST API and node binary for the Emergent Epistemic Ledger"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "eel-node"
+path = "src/bin/eel-node.rs"
+
+[dependencies]
+eel-core.workspace = true
+eel-crypto.workspace = true
+eel-ledger.workspace = true
+eel-ontology.workspace = true
+eel-storage.workspace = true
+eel-xchange.workspace = true
+axum.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+clap.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"

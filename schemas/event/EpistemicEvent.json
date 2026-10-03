@@ -1,0 +1,1635 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EpistemicEvent",
+  "description": "A signed epistemic event.",
+  "type": "object",
+  "required": [
+    "author",
+    "branch",
+    "event_type",
+    "parent_events",
+    "payload",
+    "schema_version",
+    "signature",
+    "timestamp"
+  ],
+  "properties": {
+    "artifact_refs": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Hash"
+      }
+    },
+    "author": {
+      "$ref": "#/definitions/Hash"
+    },
+    "branch": {
+      "type": "string"
+    },
+    "event_type": {
+      "$ref": "#/definitions/EventType"
+    },
+    "parent_events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Hash"
+      }
+    },
+    "payload": {
+      "$ref": "#/definitions/EventPayload"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "signature": {
+      "description": "Ed25519 signature over the 32 bytes of the event id, hex.",
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "integer",
+      "format": "int64"
+    }
+  },
+  "definitions": {
+    "AccessTerms": {
+      "description": "Terms under which an asset is offered. Free text in the MVP (decisions D-026).",
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "license": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "open_access": {
+          "default": false,
+          "type": "boolean"
+        }
+      }
+    },
+    "Artifact": {
+      "description": "Off-ledger content, referenced by hash.",
+      "type": "object",
+      "required": [
+        "artifact_id",
+        "author",
+        "content_hash",
+        "media_type",
+        "size_bytes",
+        "uri"
+      ],
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/definitions/Hash"
+        },
+        "author": {
+          "$ref": "#/definitions/Hash"
+        },
+        "content_hash": {
+          "description": "`blake3:<hex>`; equal to the artifact id. A `sha256:<hex>` may be added in `external_hashes` for compatibility.",
+          "type": "string"
+        },
+        "external_hashes": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "license": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "media_type": {
+          "type": "string"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "uri": {
+          "type": "string"
+        }
+      }
+    },
+    "BranchMergePropose": {
+      "type": "object",
+      "required": [
+        "proposal_id",
+        "rationale",
+        "source",
+        "target"
+      ],
+      "properties": {
+        "proposal_id": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      }
+    },
+    "CanonicalizationDecision": {
+      "type": "object",
+      "required": [
+        "proposal_id",
+        "validator"
+      ],
+      "properties": {
+        "proposal_id": {
+          "type": "string"
+        },
+        "reason": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "validator": {
+          "type": "string"
+        }
+      }
+    },
+    "CanonicalizationProposal": {
+      "type": "object",
+      "required": [
+        "proposal_id",
+        "proposed_status",
+        "target_claim",
+        "target_version"
+      ],
+      "properties": {
+        "evidence": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "proposal_id": {
+          "type": "string"
+        },
+        "proposed_status": {
+          "$ref": "#/definitions/ClaimStatus"
+        },
+        "successful_replications": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "target_claim": {
+          "type": "string"
+        },
+        "target_version": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "unresolved_objections": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validations": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Claim": {
+      "description": "One version of a claim.",
+      "type": "object",
+      "required": [
+        "claim_id",
+        "claim_type",
+        "ontology_level",
+        "statement",
+        "status",
+        "title",
+        "version"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string"
+        },
+        "claim_type": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClaimType"
+          }
+        },
+        "dependencies": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "domain": {
+          "description": "Domain used for validator authority (decisions D-012).",
+          "default": "general",
+          "type": "string"
+        },
+        "ontological_defensibility": {
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OntologicalDefensibility"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ontology_level": {
+          "type": "string"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ClaimStatus"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        }
+      }
+    },
+    "ClaimCreate": {
+      "type": "object",
+      "required": [
+        "claim"
+      ],
+      "properties": {
+        "claim": {
+          "$ref": "#/definitions/Claim"
+        },
+        "relations": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RelationSpec"
+          }
+        }
+      }
+    },
+    "ClaimNature": {
+      "description": "The role a claim plays (decisions D-010).",
+      "type": "string",
+      "enum": [
+        "CONSTITUTIVE",
+        "REPRESENTATIONAL",
+        "DIAGNOSTIC",
+        "EMPIRICAL",
+        "FORMAL",
+        "INTERPRETIVE"
+      ]
+    },
+    "ClaimRevise": {
+      "type": "object",
+      "required": [
+        "claim"
+      ],
+      "properties": {
+        "claim": {
+          "description": "The full new version. `version` must be the current version plus one.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Claim"
+            }
+          ]
+        },
+        "rationale": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "relations": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RelationSpec"
+          }
+        }
+      }
+    },
+    "ClaimStatus": {
+      "description": "Procedural status of a claim. These are states of the epistemic process, never verdicts about truth.",
+      "type": "string",
+      "enum": [
+        "PROPOSED",
+        "CANDIDATE",
+        "SUPPORTED",
+        "ROBUST",
+        "CONTESTED",
+        "SUPERSEDED",
+        "FALSIFIED",
+        "RETIRED"
+      ]
+    },
+    "ClaimSupersede": {
+      "type": "object",
+      "required": [
+        "claim_id",
+        "superseded_by"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string"
+        },
+        "rationale": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "superseded_by": {
+          "type": "string"
+        }
+      }
+    },
+    "ClaimType": {
+      "description": "What kind of statement a claim is (decisions D-010).",
+      "type": "string",
+      "enum": [
+        "PROPOSITION",
+        "DEFINITION",
+        "CRITERION",
+        "HYPOTHESIS",
+        "PREDICTION",
+        "OBSERVATION",
+        "MODEL",
+        "METHOD",
+        "TEST"
+      ]
+    },
+    "CommitmentType": {
+      "description": "Which pool a commitment funds (white paper §12; decisions D-024).",
+      "type": "string",
+      "enum": [
+        "EXECUTION",
+        "REPLICATION",
+        "SUPPORT_RISK"
+      ]
+    },
+    "EventPayload": {
+      "description": "The typed payload. The variant must match the event's `event_type`.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "IDENTITY_REGISTER"
+          ],
+          "properties": {
+            "IDENTITY_REGISTER": {
+              "$ref": "#/definitions/IdentityRegister"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "CLAIM_CREATE"
+          ],
+          "properties": {
+            "CLAIM_CREATE": {
+              "$ref": "#/definitions/ClaimCreate"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "CLAIM_REVISE"
+          ],
+          "properties": {
+            "CLAIM_REVISE": {
+              "$ref": "#/definitions/ClaimRevise"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "CLAIM_SUPERSEDE"
+          ],
+          "properties": {
+            "CLAIM_SUPERSEDE": {
+              "$ref": "#/definitions/ClaimSupersede"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "EVIDENCE_ADD"
+          ],
+          "properties": {
+            "EVIDENCE_ADD": {
+              "$ref": "#/definitions/Evidence"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "EVIDENCE_RETRACT"
+          ],
+          "properties": {
+            "EVIDENCE_RETRACT": {
+              "$ref": "#/definitions/EvidenceRetract"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "OBJECTION_ADD"
+          ],
+          "properties": {
+            "OBJECTION_ADD": {
+              "$ref": "#/definitions/Objection"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "OBJECTION_REPLY"
+          ],
+          "properties": {
+            "OBJECTION_REPLY": {
+              "$ref": "#/definitions/ObjectionReply"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "REPLICATION_REGISTER"
+          ],
+          "properties": {
+            "REPLICATION_REGISTER": {
+              "$ref": "#/definitions/Replication"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "REPLICATION_RESULT"
+          ],
+          "properties": {
+            "REPLICATION_RESULT": {
+              "$ref": "#/definitions/ReplicationResultPayload"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "VALIDATION_SUBMIT"
+          ],
+          "properties": {
+            "VALIDATION_SUBMIT": {
+              "$ref": "#/definitions/ValidationRecord"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "BRANCH_CREATE"
+          ],
+          "properties": {
+            "BRANCH_CREATE": {
+              "$ref": "#/definitions/OntologyBranch"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "BRANCH_MERGE_PROPOSE"
+          ],
+          "properties": {
+            "BRANCH_MERGE_PROPOSE": {
+              "$ref": "#/definitions/BranchMergePropose"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "CANONICALIZATION_PROPOSE"
+          ],
+          "properties": {
+            "CANONICALIZATION_PROPOSE": {
+              "$ref": "#/definitions/CanonicalizationProposal"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "CANONICALIZATION_ACCEPT"
+          ],
+          "properties": {
+            "CANONICALIZATION_ACCEPT": {
+              "$ref": "#/definitions/CanonicalizationDecision"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "CANONICALIZATION_REJECT"
+          ],
+          "properties": {
+            "CANONICALIZATION_REJECT": {
+              "$ref": "#/definitions/CanonicalizationDecision"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "ARTIFACT_REGISTER"
+          ],
+          "properties": {
+            "ARTIFACT_REGISTER": {
+              "$ref": "#/definitions/Artifact"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "SIMULATION_DEFINE"
+          ],
+          "properties": {
+            "SIMULATION_DEFINE": {
+              "$ref": "#/definitions/SimulationDefine"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "SIMULATION_RESULT"
+          ],
+          "properties": {
+            "SIMULATION_RESULT": {
+              "$ref": "#/definitions/SimulationResult"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "SIMULATION_VERIFY"
+          ],
+          "properties": {
+            "SIMULATION_VERIFY": {
+              "$ref": "#/definitions/SimulationVerify"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "RESEARCH_REQUEST_CREATE"
+          ],
+          "properties": {
+            "RESEARCH_REQUEST_CREATE": {
+              "$ref": "#/definitions/ResearchRequest"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "RESEARCH_REQUEST_SUPPORT"
+          ],
+          "properties": {
+            "RESEARCH_REQUEST_SUPPORT": {
+              "$ref": "#/definitions/SupportCommitment"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "RESEARCH_RESULT_SUBMIT"
+          ],
+          "properties": {
+            "RESEARCH_RESULT_SUBMIT": {
+              "$ref": "#/definitions/ResearchResult"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "XCHANGE_ASSET_REGISTER"
+          ],
+          "properties": {
+            "XCHANGE_ASSET_REGISTER": {
+              "$ref": "#/definitions/XchangeAsset"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "EventType": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "IDENTITY_REGISTER",
+            "CLAIM_CREATE",
+            "CLAIM_REVISE",
+            "CLAIM_SUPERSEDE",
+            "EVIDENCE_ADD",
+            "EVIDENCE_RETRACT",
+            "OBJECTION_ADD",
+            "OBJECTION_REPLY",
+            "REPLICATION_REGISTER",
+            "REPLICATION_RESULT",
+            "VALIDATION_SUBMIT",
+            "BRANCH_CREATE",
+            "BRANCH_MERGE_PROPOSE",
+            "CANONICALIZATION_PROPOSE",
+            "CANONICALIZATION_ACCEPT",
+            "CANONICALIZATION_REJECT",
+            "ARTIFACT_REGISTER",
+            "SIMULATION_DEFINE",
+            "SIMULATION_RESULT",
+            "SIMULATION_VERIFY",
+            "RESEARCH_REQUEST_CREATE",
+            "RESEARCH_REQUEST_SUPPORT",
+            "RESEARCH_RESULT_SUBMIT"
+          ]
+        },
+        {
+          "description": "Not in the specification's event list; required by the `POST /xchange/assets` endpoint (decisions D-025).",
+          "type": "string",
+          "enum": [
+            "XCHANGE_ASSET_REGISTER"
+          ]
+        }
+      ]
+    },
+    "Evidence": {
+      "type": "object",
+      "required": [
+        "claim_id",
+        "description",
+        "evidence_id",
+        "relation"
+      ],
+      "properties": {
+        "artifacts": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Hash"
+          }
+        },
+        "claim_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "evidence_id": {
+          "type": "string"
+        },
+        "relation": {
+          "$ref": "#/definitions/EvidenceRelation"
+        },
+        "research_result": {
+          "description": "A research result (identified by its submitting event) this evidence rests on.",
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "simulation_result": {
+          "description": "A verified simulation result this evidence rests on, if any.",
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "EvidenceRelation": {
+      "description": "How a piece of evidence bears on its claim.",
+      "type": "string",
+      "enum": [
+        "SUPPORTS",
+        "CONTRADICTS",
+        "OBSERVES"
+      ]
+    },
+    "EvidenceRetract": {
+      "type": "object",
+      "required": [
+        "evidence_id",
+        "reason"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "IdentityRegister": {
+      "type": "object",
+      "required": [
+        "identity_id",
+        "public_key"
+      ],
+      "properties": {
+        "identity_id": {
+          "$ref": "#/definitions/Hash"
+        },
+        "public_key": {
+          "description": "Ed25519 public key, hex.",
+          "type": "string"
+        }
+      }
+    },
+    "InitialConditions": {
+      "description": "Parameters from which the initial graph is generated with the seed.",
+      "type": "object",
+      "required": [
+        "edge_permille",
+        "initial_state_bound",
+        "vertices",
+        "weight_bound"
+      ],
+      "properties": {
+        "edge_permille": {
+          "description": "Probability (permille) of a directed edge between two distinct vertices.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "initial_state_bound": {
+          "description": "Initial states are drawn from [-initial_state_bound, initial_state_bound].",
+          "type": "integer",
+          "format": "int64"
+        },
+        "vertices": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "weight_bound": {
+          "description": "Edge weights are drawn from [-weight_bound, weight_bound].",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "MetricValue": {
+      "type": "object",
+      "required": [
+        "metric",
+        "value"
+      ],
+      "properties": {
+        "metric": {
+          "$ref": "#/definitions/SimulationMetric"
+        },
+        "value": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "ObjectId": {
+      "description": "A typed reference to any protocol object.",
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/ObjectKind"
+        }
+      }
+    },
+    "ObjectKind": {
+      "description": "Kind of object an [`ObjectId`] points to.",
+      "type": "string",
+      "enum": [
+        "claim",
+        "evidence",
+        "objection",
+        "replication",
+        "artifact",
+        "validation",
+        "simulation_job",
+        "simulation_result",
+        "research_request",
+        "research_result",
+        "xchange_asset",
+        "branch",
+        "identity"
+      ]
+    },
+    "Objection": {
+      "type": "object",
+      "required": [
+        "objection_id",
+        "severity",
+        "target",
+        "text"
+      ],
+      "properties": {
+        "objection_id": {
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/definitions/ObjectionSeverity"
+        },
+        "target": {
+          "$ref": "#/definitions/ObjectId"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "ObjectionReply": {
+      "type": "object",
+      "required": [
+        "objection_id",
+        "text"
+      ],
+      "properties": {
+        "objection_id": {
+          "type": "string"
+        },
+        "resolves": {
+          "description": "Only the objection's author can mark it resolved (decisions D-015).",
+          "default": false,
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "ObjectionSeverity": {
+      "type": "string",
+      "enum": [
+        "MINOR",
+        "MAJOR",
+        "CRITICAL"
+      ]
+    },
+    "OntologicalDefensibility": {
+      "description": "Optional, extensible record of a claim's ontological commitments.",
+      "type": "object",
+      "properties": {
+        "claim_nature": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClaimNature"
+          }
+        },
+        "emergent_properties": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "empirical_constraints": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "extensions": {
+          "description": "Additional fields for later extensions; kept so that nothing is lost.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "failure_conditions": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "lower_assumption_alternative": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lower_order_dependencies": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "new_primitives": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ontology_level": {
+          "default": "",
+          "type": "string"
+        },
+        "required_entities": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "OntologyBranch": {
+      "type": "object",
+      "required": [
+        "branch_id",
+        "created_by",
+        "name"
+      ],
+      "properties": {
+        "branch_id": {
+          "type": "string"
+        },
+        "created_by": {
+          "$ref": "#/definitions/Hash"
+        },
+        "fork_event": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "parent_branch": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "RelationSpec": {
+      "description": "An additional relation declared when a claim is created or revised.",
+      "type": "object",
+      "required": [
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "relation": {
+          "$ref": "#/definitions/RelationType"
+        },
+        "target": {
+          "$ref": "#/definitions/ObjectId"
+        }
+      }
+    },
+    "RelationType": {
+      "description": "Typed relation between two objects in the ontology graph.",
+      "type": "string",
+      "enum": [
+        "DEPENDS_ON",
+        "SUPPORTS",
+        "CONTRADICTS",
+        "REFINES",
+        "SUPERSEDES",
+        "REPLICATES",
+        "FALSIFIES",
+        "IMPLEMENTS",
+        "DERIVES_FROM",
+        "GENERALIZES",
+        "SPECIALIZES",
+        "ALTERNATIVE_TO",
+        "OBSERVES",
+        "PREDICTS",
+        "USES_DATA_FROM"
+      ]
+    },
+    "Replication": {
+      "type": "object",
+      "required": [
+        "protocol",
+        "replication_id",
+        "target"
+      ],
+      "properties": {
+        "protocol": {
+          "type": "string"
+        },
+        "replication_id": {
+          "type": "string"
+        },
+        "target": {
+          "description": "The evidence or simulation result being replicated.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ObjectId"
+            }
+          ]
+        }
+      }
+    },
+    "ReplicationOutcome": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "FAILURE",
+        "INCONCLUSIVE"
+      ]
+    },
+    "ReplicationResultPayload": {
+      "type": "object",
+      "required": [
+        "outcome",
+        "replication_id"
+      ],
+      "properties": {
+        "artifacts": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Hash"
+          }
+        },
+        "notes": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "outcome": {
+          "$ref": "#/definitions/ReplicationOutcome"
+        },
+        "replication_id": {
+          "type": "string"
+        }
+      }
+    },
+    "ResearchOutcome": {
+      "type": "string",
+      "enum": [
+        "SUPPORTING",
+        "CONTRADICTING",
+        "NULL",
+        "INCONCLUSIVE"
+      ]
+    },
+    "ResearchRequest": {
+      "type": "object",
+      "required": [
+        "created_by",
+        "description",
+        "linked_claims",
+        "request_id",
+        "requested_work",
+        "title"
+      ],
+      "properties": {
+        "acceptance_conditions": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "created_by": {
+          "$ref": "#/definitions/Hash"
+        },
+        "description": {
+          "type": "string"
+        },
+        "linked_claims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "requested_work": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResearchWorkType"
+          }
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "ResearchResult": {
+      "type": "object",
+      "required": [
+        "methodology",
+        "outcome",
+        "request_id",
+        "submitted_by"
+      ],
+      "properties": {
+        "artifacts": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Hash"
+          }
+        },
+        "linked_claims": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "methodology": {
+          "type": "string"
+        },
+        "outcome": {
+          "$ref": "#/definitions/ResearchOutcome"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "submitted_by": {
+          "$ref": "#/definitions/Hash"
+        }
+      }
+    },
+    "ResearchWorkType": {
+      "type": "string",
+      "enum": [
+        "EXPERIMENT",
+        "REPLICATION",
+        "SIMULATION",
+        "FORMAL_REVIEW",
+        "LITERATURE_REVIEW",
+        "DATA_COLLECTION",
+        "COUNTERMODEL_SEARCH"
+      ]
+    },
+    "Ruleset": {
+      "description": "Integer parameters of the relational graph engine's update rule.",
+      "type": "object",
+      "required": [
+        "coupling_divisor",
+        "memory_length",
+        "persistence_threshold",
+        "perturbation_magnitude",
+        "perturbation_permille",
+        "self_retention_permille",
+        "state_bound"
+      ],
+      "properties": {
+        "coupling_divisor": {
+          "description": "Divisor applied to the weighted neighbour sum.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "memory_length": {
+          "description": "Number of past states each vertex remembers.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "persistence_threshold": {
+          "description": "A vertex is persistent when |state| >= this for the whole memory window.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "perturbation_magnitude": {
+          "description": "Maximum absolute size of a perturbation.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "perturbation_permille": {
+          "description": "Probability (permille) that a vertex is perturbed in a step.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "self_retention_permille": {
+          "description": "Retention of a vertex's own state, in permille.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "state_bound": {
+          "description": "States are clamped to [-state_bound, state_bound].",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "SimulationDefine": {
+      "type": "object",
+      "required": [
+        "initial_conditions",
+        "job",
+        "ruleset"
+      ],
+      "properties": {
+        "initial_conditions": {
+          "$ref": "#/definitions/InitialConditions"
+        },
+        "job": {
+          "$ref": "#/definitions/SimulationJob"
+        },
+        "ruleset": {
+          "description": "The ruleset and initial conditions are registered with the job so that any node can replay results; their hashes must match the job.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Ruleset"
+            }
+          ]
+        }
+      }
+    },
+    "SimulationJob": {
+      "type": "object",
+      "required": [
+        "engine_version",
+        "initial_conditions_hash",
+        "job_id",
+        "metrics",
+        "ruleset_hash",
+        "seed_end",
+        "seed_start",
+        "steps"
+      ],
+      "properties": {
+        "engine_version": {
+          "type": "string"
+        },
+        "initial_conditions_hash": {
+          "$ref": "#/definitions/Hash"
+        },
+        "job_id": {
+          "type": "string"
+        },
+        "linked_claims": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SimulationMetric"
+          }
+        },
+        "ruleset_hash": {
+          "$ref": "#/definitions/Hash"
+        },
+        "seed_end": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "seed_start": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "steps": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        }
+      }
+    },
+    "SimulationMetric": {
+      "type": "string",
+      "enum": [
+        "LIFESPAN",
+        "STRUCTURAL_PERSISTENCE",
+        "PERTURBATION_RESISTANCE",
+        "RECURRENCE",
+        "COMPRESSION_RATIO",
+        "RECURSIVE_COMPOSABILITY"
+      ]
+    },
+    "SimulationResult": {
+      "type": "object",
+      "required": [
+        "engine_hash",
+        "final_state_hash",
+        "initial_state_hash",
+        "job_id",
+        "metrics",
+        "result_artifact",
+        "result_id",
+        "ruleset_hash",
+        "seed",
+        "worker"
+      ],
+      "properties": {
+        "engine_hash": {
+          "$ref": "#/definitions/Hash"
+        },
+        "final_state_hash": {
+          "$ref": "#/definitions/Hash"
+        },
+        "initial_state_hash": {
+          "$ref": "#/definitions/Hash"
+        },
+        "job_id": {
+          "type": "string"
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetricValue"
+          }
+        },
+        "result_artifact": {
+          "$ref": "#/definitions/Hash"
+        },
+        "result_id": {
+          "description": "BLAKE3 of the canonical result with this field set to all zeros.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Hash"
+            }
+          ]
+        },
+        "ruleset_hash": {
+          "$ref": "#/definitions/Hash"
+        },
+        "seed": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "worker": {
+          "$ref": "#/definitions/Hash"
+        }
+      }
+    },
+    "SimulationVerify": {
+      "type": "object",
+      "required": [
+        "reproduced",
+        "result_id",
+        "validator"
+      ],
+      "properties": {
+        "reproduced": {
+          "description": "The verifier's replay outcome. The projector replays the result itself and rejects the event if this value is wrong (decisions D-021).",
+          "type": "boolean"
+        },
+        "result_id": {
+          "$ref": "#/definitions/Hash"
+        },
+        "validator": {
+          "type": "string"
+        }
+      }
+    },
+    "SupportCommitment": {
+      "type": "object",
+      "required": [
+        "amount_units",
+        "commitment_type",
+        "request_id",
+        "supporter"
+      ],
+      "properties": {
+        "amount_units": {
+          "description": "Arbitrary development units. No wallets, no financial value.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "commitment_type": {
+          "$ref": "#/definitions/CommitmentType"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "supporter": {
+          "$ref": "#/definitions/Hash"
+        }
+      }
+    },
+    "ValidationOutcome": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "INCONCLUSIVE"
+      ]
+    },
+    "ValidationRecord": {
+      "description": "A procedural validation. It states that something was done correctly, never that a claim is true.",
+      "type": "object",
+      "required": [
+        "outcome",
+        "target",
+        "validation_id",
+        "validation_type",
+        "validator"
+      ],
+      "properties": {
+        "notes": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "outcome": {
+          "$ref": "#/definitions/ValidationOutcome"
+        },
+        "target": {
+          "$ref": "#/definitions/ObjectId"
+        },
+        "validation_id": {
+          "type": "string"
+        },
+        "validation_type": {
+          "$ref": "#/definitions/ValidationType"
+        },
+        "validator": {
+          "type": "string"
+        }
+      }
+    },
+    "ValidationType": {
+      "type": "string",
+      "enum": [
+        "METHOD_CONFORMANCE",
+        "ARTIFACT_INTEGRITY",
+        "SIMULATION_REPLAY",
+        "REPLICATION_CONFORMANCE",
+        "DATA_PROVENANCE"
+      ]
+    },
+    "XchangeAsset": {
+      "type": "object",
+      "required": [
+        "access_terms",
+        "asset_id",
+        "asset_type",
+        "provider"
+      ],
+      "properties": {
+        "access_terms": {
+          "$ref": "#/definitions/AccessTerms"
+        },
+        "artifact_ref": {
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asset_id": {
+          "type": "string"
+        },
+        "asset_type": {
+          "$ref": "#/definitions/XchangeAssetType"
+        },
+        "ontology_links": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ObjectId"
+          }
+        },
+        "provider": {
+          "$ref": "#/definitions/Hash"
+        }
+      }
+    },
+    "XchangeAssetType": {
+      "type": "string",
+      "enum": [
+        "PAPER",
+        "DATASET",
+        "EVIDENCE",
+        "COMPUTE",
+        "REVIEW_LABOR",
+        "REPLICATION_LABOR",
+        "SIMULATION",
+        "MODEL",
+        "PROTOCOL"
+      ]
+    }
+  }
+}

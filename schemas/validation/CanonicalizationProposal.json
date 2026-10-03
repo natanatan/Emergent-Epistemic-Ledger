@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CanonicalizationProposal",
+  "type": "object",
+  "required": [
+    "proposal_id",
+    "proposed_status",
+    "target_claim",
+    "target_version"
+  ],
+  "properties": {
+    "evidence": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "proposal_id": {
+      "type": "string"
+    },
+    "proposed_status": {
+      "$ref": "#/definitions/ClaimStatus"
+    },
+    "successful_replications": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target_claim": {
+      "type": "string"
+    },
+    "target_version": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "unresolved_objections": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validations": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "definitions": {
+    "ClaimStatus": {
+      "description": "Procedural status of a claim. These are states of the epistemic process, never verdicts about truth.",
+      "type": "string",
+      "enum": [
+        "PROPOSED",
+        "CANDIDATE",
+        "SUPPORTED",
+        "ROBUST",
+        "CONTESTED",
+        "SUPERSEDED",
+        "FALSIFIED",
+        "RETIRED"
+      ]
+    }
+  }
+}

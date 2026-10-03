@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SimulationResult",
+  "type": "object",
+  "required": [
+    "engine_hash",
+    "final_state_hash",
+    "initial_state_hash",
+    "job_id",
+    "metrics",
+    "result_artifact",
+    "result_id",
+    "ruleset_hash",
+    "seed",
+    "worker"
+  ],
+  "properties": {
+    "engine_hash": {
+      "$ref": "#/definitions/Hash"
+    },
+    "final_state_hash": {
+      "$ref": "#/definitions/Hash"
+    },
+    "initial_state_hash": {
+      "$ref": "#/definitions/Hash"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/MetricValue"
+      }
+    },
+    "result_artifact": {
+      "$ref": "#/definitions/Hash"
+    },
+    "result_id": {
+      "description": "BLAKE3 of the canonical result with this field set to all zeros.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Hash"
+        }
+      ]
+    },
+    "ruleset_hash": {
+      "$ref": "#/definitions/Hash"
+    },
+    "seed": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "worker": {
+      "$ref": "#/definitions/Hash"
+    }
+  },
+  "definitions": {
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "MetricValue": {
+      "type": "object",
+      "required": [
+        "metric",
+        "value"
+      ],
+      "properties": {
+        "metric": {
+          "$ref": "#/definitions/SimulationMetric"
+        },
+        "value": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "SimulationMetric": {
+      "type": "string",
+      "enum": [
+        "LIFESPAN",
+        "STRUCTURAL_PERSISTENCE",
+        "PERTURBATION_RESISTANCE",
+        "RECURRENCE",
+        "COMPRESSION_RATIO",
+        "RECURSIVE_COMPOSABILITY"
+      ]
+    }
+  }
+}

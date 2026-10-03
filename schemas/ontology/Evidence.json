@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Evidence",
+  "type": "object",
+  "required": [
+    "claim_id",
+    "description",
+    "evidence_id",
+    "relation"
+  ],
+  "properties": {
+    "artifacts": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Hash"
+      }
+    },
+    "claim_id": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "evidence_id": {
+      "type": "string"
+    },
+    "relation": {
+      "$ref": "#/definitions/EvidenceRelation"
+    },
+    "research_result": {
+      "description": "A research result (identified by its submitting event) this evidence rests on.",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Hash"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "simulation_result": {
+      "description": "A verified simulation result this evidence rests on, if any.",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Hash"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "EvidenceRelation": {
+      "description": "How a piece of evidence bears on its claim.",
+      "type": "string",
+      "enum": [
+        "SUPPORTS",
+        "CONTRADICTS",
+        "OBSERVES"
+      ]
+    },
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Objection",
+  "type": "object",
+  "required": [
+    "objection_id",
+    "severity",
+    "target",
+    "text"
+  ],
+  "properties": {
+    "objection_id": {
+      "type": "string"
+    },
+    "severity": {
+      "$ref": "#/definitions/ObjectionSeverity"
+    },
+    "target": {
+      "$ref": "#/definitions/ObjectId"
+    },
+    "text": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "ObjectId": {
+      "description": "A typed reference to any protocol object.",
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/ObjectKind"
+        }
+      }
+    },
+    "ObjectKind": {
+      "description": "Kind of object an [`ObjectId`] points to.",
+      "type": "string",
+      "enum": [
+        "claim",
+        "evidence",
+        "objection",
+        "replication",
+        "artifact",
+        "validation",
+        "simulation_job",
+        "simulation_result",
+        "research_request",
+        "research_result",
+        "xchange_asset",
+        "branch",
+        "identity"
+      ]
+    },
+    "ObjectionSeverity": {
+      "type": "string",
+      "enum": [
+        "MINOR",
+        "MAJOR",
+        "CRITICAL"
+      ]
+    }
+  }
+}

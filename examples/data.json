@@ -1,0 +1,8 @@
+{
+  "description": "Example dataset registered as an off-ledger artifact.",
+  "observations": [
+    {"run": 1, "persistent_structures": 3},
+    {"run": 2, "persistent_structures": 2},
+    {"run": 3, "persistent_structures": 4}
+  ]
+}

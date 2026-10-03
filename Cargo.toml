@@ -1,0 +1,51 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/eel-core",
+    "crates/eel-crypto",
+    "crates/eel-ledger",
+    "crates/eel-ontology",
+    "crates/eel-validation",
+    "crates/eel-xchange",
+    "crates/eel-simulation",
+    "crates/eel-storage",
+    "crates/eel-api",
+    "crates/eel-cli",
+    "tests",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/natanatan/Emergent-Epistemic-Ledger"
+
+[workspace.dependencies]
+eel-core = { path = "crates/eel-core" }
+eel-crypto = { path = "crates/eel-crypto" }
+eel-ledger = { path = "crates/eel-ledger" }
+eel-ontology = { path = "crates/eel-ontology" }
+eel-validation = { path = "crates/eel-validation" }
+eel-xchange = { path = "crates/eel-xchange" }
+eel-simulation = { path = "crates/eel-simulation" }
+eel-storage = { path = "crates/eel-storage" }
+eel-api = { path = "crates/eel-api" }
+
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "fs", "net", "signal"] }
+axum = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+blake3 = "1"
+sha2 = "0.10"
+ed25519-dalek = "2"
+getrandom = "0.2"
+hex = "0.4"
+unicode-normalization = "0.1"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "migrate", "macros"] }
+clap = { version = "4", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+thiserror = "2"
+schemars = "0.8"
+tempfile = "3"

@@ -1,0 +1,536 @@
+openapi: 3.1.0
+info:
+  title: Emergent Epistemic Ledger API
+  version: 0.1.0
+  description: |
+    REST interface of an EEL development node. Every write takes a signed
+    EpistemicEvent (private keys never leave the client); typed endpoints
+    also check the event type. Responses to writes report the sealed block.
+    Maintained by hand (decisions D-028); JSON Schemas for every payload are
+    in /schemas.
+servers:
+  - url: http://127.0.0.1:7878
+components:
+  parameters:
+    branch:
+      name: branch
+      in: query
+      required: false
+      schema: { type: string, default: main }
+    id:
+      name: id
+      in: path
+      required: true
+      schema: { type: string }
+    height:
+      name: height
+      in: path
+      required: true
+      schema: { type: integer, minimum: 0 }
+  schemas:
+    EpistemicEvent:
+      $ref: '../schemas/event/EpistemicEvent.json'
+    Accepted:
+      type: object
+      required: [event_id, block_height, block_hash, state_root]
+      properties:
+        event_id: { type: string, pattern: '^[0-9a-f]{64}$' }
+        block_height: { type: integer }
+        block_hash: { type: string, pattern: '^[0-9a-f]{64}$' }
+        state_root: { type: string, pattern: '^[0-9a-f]{64}$' }
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string }
+paths:
+  /identities:
+    post:
+      summary: Register a self-signed identity
+      description: 'Accepted event types: IDENTITY_REGISTER.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /events:
+    post:
+      summary: Submit any signed event
+      description: 'Accepted event types: any.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /claims:
+    post:
+      summary: Create, revise or supersede a claim
+      description: 'Accepted event types: CLAIM_CREATE, CLAIM_REVISE, CLAIM_SUPERSEDE.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /evidence:
+    post:
+      summary: Add or retract evidence
+      description: 'Accepted event types: EVIDENCE_ADD, EVIDENCE_RETRACT.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /objections:
+    post:
+      summary: Add or reply to an objection
+      description: 'Accepted event types: OBJECTION_ADD, OBJECTION_REPLY.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /validations:
+    post:
+      summary: Submit a validation or replication
+      description: 'Accepted event types: VALIDATION_SUBMIT, REPLICATION_REGISTER, REPLICATION_RESULT.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /branches:
+    post:
+      summary: Create a branch or propose a merge
+      description: 'Accepted event types: BRANCH_CREATE, BRANCH_MERGE_PROPOSE.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /canonicalization/proposals:
+    post:
+      summary: Propose canonicalization
+      description: 'Accepted event types: CANONICALIZATION_PROPOSE.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /canonicalization/{id}/accept:
+    post:
+      summary: A validator accepts a proposal
+      description: 'Accepted event types: CANONICALIZATION_ACCEPT.'
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /canonicalization/{id}/reject:
+    post:
+      summary: A validator rejects a proposal
+      description: 'Accepted event types: CANONICALIZATION_REJECT.'
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /artifacts:
+    post:
+      summary: Register an off-ledger artifact
+      description: 'Accepted event types: ARTIFACT_REGISTER.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /xchange/assets:
+    post:
+      summary: Register a DATA XCHANGE asset
+      description: 'Accepted event types: XCHANGE_ASSET_REGISTER.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+    get:
+      summary: All DATA XCHANGE assets
+      responses:
+        '200':
+          description: OK
+  /research/requests:
+    post:
+      summary: Create a research request
+      description: 'Accepted event types: RESEARCH_REQUEST_CREATE.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /research/requests/{id}/support:
+    post:
+      summary: Commit development units to a request
+      description: 'Accepted event types: RESEARCH_REQUEST_SUPPORT.'
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /research/requests/{id}/results:
+    post:
+      summary: Submit a research result
+      description: 'Accepted event types: RESEARCH_RESULT_SUBMIT.'
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /simulations/jobs:
+    post:
+      summary: Define a simulation job
+      description: 'Accepted event types: SIMULATION_DEFINE.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /simulations/results:
+    post:
+      summary: Submit a simulation result
+      description: 'Accepted event types: SIMULATION_RESULT.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /simulations/results/{id}/verify:
+    post:
+      summary: A validator records a replay outcome
+      description: 'Accepted event types: SIMULATION_VERIFY.'
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EpistemicEvent' }
+      responses:
+        '200':
+          description: Event accepted and sealed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Accepted' }
+        '400':
+          description: Event rejected
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /status:
+    get:
+      summary: Network, head block and state root
+      responses:
+        '200':
+          description: OK
+  /openapi.yaml:
+    get:
+      summary: This document
+      responses:
+        '200':
+          description: OK
+  /events/{id}:
+    get:
+      summary: An event and the height of its block
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /claims/{id}:
+    get:
+      summary: Current version of a claim
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/branch'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /claims/{id}/history:
+    get:
+      summary: Every version and status change of a claim
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/branch'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /claims/{id}/dependencies:
+    get:
+      summary: Direct and transitive dependencies
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/branch'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /branches/{id}:
+    get:
+      summary: Branch ancestry and size
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /research/requests/{id}:
+    get:
+      summary: A request, its pools and results
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /simulations/jobs/{id}:
+    get:
+      summary: A job and its results
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /ontology/graph:
+    get:
+      summary: Claims and edges of a branch
+      parameters:
+        - $ref: '#/components/parameters/branch'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /ontology/canonical:
+    get:
+      summary: Claims whose current version is canonicalized
+      parameters:
+        - $ref: '#/components/parameters/branch'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /ontology/state/{height}:
+    get:
+      summary: Full projected state at a block height
+      parameters:
+        - $ref: '#/components/parameters/height'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found

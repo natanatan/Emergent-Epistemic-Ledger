@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Artifact",
+  "description": "Off-ledger content, referenced by hash.",
+  "type": "object",
+  "required": [
+    "artifact_id",
+    "author",
+    "content_hash",
+    "media_type",
+    "size_bytes",
+    "uri"
+  ],
+  "properties": {
+    "artifact_id": {
+      "$ref": "#/definitions/Hash"
+    },
+    "author": {
+      "$ref": "#/definitions/Hash"
+    },
+    "content_hash": {
+      "description": "`blake3:<hex>`; equal to the artifact id. A `sha256:<hex>` may be added in `external_hashes` for compatibility.",
+      "type": "string"
+    },
+    "external_hashes": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "license": {
+      "default": null,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "media_type": {
+      "type": "string"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "uri": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

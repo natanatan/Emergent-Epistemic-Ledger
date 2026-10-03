@@ -1,0 +1,44 @@
+network:
+  name: EEL Development Network
+  protocol_version: '0.1'
+principles:
+- ledger_consensus_is_not_truth_consensus
+- economic_stake_is_not_epistemic_authority
+- minority_branches_remain_recoverable
+- provenance_is_immutable
+- scientific_claims_are_revisable
+- falsification_is_valuable
+- canonicalization_is_provisional
+genesis_time: 1767225600000
+validators:
+- validator_id: VAL-A
+  public_key: cc8bd910f02ab4c4b78badd767662143d6201b0b3b555d945dee3bf68a487fb1
+  domains:
+  - general
+  - ontology
+  - physics
+  validator_class: GENESIS
+  activated_at: 0
+  expires_at: null
+- validator_id: VAL-B
+  public_key: fbea9c18ef92e0ec83685b21bee29d86c82d915e8187a58b09f6745030cada06
+  domains:
+  - general
+  - ontology
+  - physics
+  validator_class: GENESIS
+  activated_at: 0
+  expires_at: null
+- validator_id: VAL-C
+  public_key: e15a641b9c304a2b844eb29d55fbdc138c2719cdc7479c410a3c2850bd9b7be0
+  domains:
+  - general
+  - physics
+  validator_class: GENESIS
+  activated_at: 0
+  expires_at: null
+canonicalization:
+  minimum_validators: 2
+  minimum_independent_replications: 2
+  maximum_unresolved_critical_objections: 0
+block_sealer: VAL-A

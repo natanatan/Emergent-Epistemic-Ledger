@@ -1,0 +1,14 @@
+request_id: REQ-0001
+title: Persistent relational structure search
+linked_claims:
+  - EE-REL-0003
+requested_work:
+  - SIMULATION
+  - REPLICATION
+description: >
+  Search deterministic graph-rule families for structures
+  that persist under repeated local perturbation.
+acceptance_conditions:
+  - result is deterministically reproducible
+  - at least two validator nodes replay the result
+  - full ruleset is registered

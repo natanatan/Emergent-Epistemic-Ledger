@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SupportCommitment",
+  "type": "object",
+  "required": [
+    "amount_units",
+    "commitment_type",
+    "request_id",
+    "supporter"
+  ],
+  "properties": {
+    "amount_units": {
+      "description": "Arbitrary development units. No wallets, no financial value.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "commitment_type": {
+      "$ref": "#/definitions/CommitmentType"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "supporter": {
+      "$ref": "#/definitions/Hash"
+    }
+  },
+  "definitions": {
+    "CommitmentType": {
+      "description": "Which pool a commitment funds (white paper §12; decisions D-024).",
+      "type": "string",
+      "enum": [
+        "EXECUTION",
+        "REPLICATION",
+        "SUPPORT_RISK"
+      ]
+    },
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

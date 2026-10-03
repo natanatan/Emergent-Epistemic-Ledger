@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "InitialConditions",
+  "description": "Parameters from which the initial graph is generated with the seed.",
+  "type": "object",
+  "required": [
+    "edge_permille",
+    "initial_state_bound",
+    "vertices",
+    "weight_bound"
+  ],
+  "properties": {
+    "edge_permille": {
+      "description": "Probability (permille) of a directed edge between two distinct vertices.",
+      "type": "integer",
+      "format": "int64"
+    },
+    "initial_state_bound": {
+      "description": "Initial states are drawn from [-initial_state_bound, initial_state_bound].",
+      "type": "integer",
+      "format": "int64"
+    },
+    "vertices": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "weight_bound": {
+      "description": "Edge weights are drawn from [-weight_bound, weight_bound].",
+      "type": "integer",
+      "format": "int64"
+    }
+  }
+}

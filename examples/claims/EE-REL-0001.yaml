@@ -1,0 +1,10 @@
+# Genesis test ontology. These five claims exist only to exercise protocol
+# mechanics; they are not the Emergent Existence framework.
+claim_id: EE-REL-0001
+title: Distinction
+statement: >
+  A difference that makes a difference is the minimal condition for anything
+  to be registered at all.
+claim_type: [DEFINITION]
+ontology_level: pre-relational
+domain: ontology

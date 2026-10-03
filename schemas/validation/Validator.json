@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Validator",
+  "type": "object",
+  "required": [
+    "activated_at",
+    "domains",
+    "identity_id",
+    "validator_class",
+    "validator_id"
+  ],
+  "properties": {
+    "activated_at": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "expires_at": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "int64"
+    },
+    "identity_id": {
+      "$ref": "#/definitions/Hash"
+    },
+    "validator_class": {
+      "$ref": "#/definitions/ValidatorClass"
+    },
+    "validator_id": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ValidatorClass": {
+      "type": "string",
+      "enum": [
+        "GENESIS",
+        "EARNED"
+      ]
+    }
+  }
+}

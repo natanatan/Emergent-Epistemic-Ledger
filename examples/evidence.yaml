@@ -1,0 +1,9 @@
+evidence_id: EV-0001
+claim_id: EE-REL-0003
+relation: SUPPORTS
+description: >
+  Persistent structures were observed in three runs of the example dataset.
+# The BLAKE3 id of examples/data.json; register it first with
+# `eel artifact register examples/data.json`.
+artifacts:
+  - 2e846d9c129d6542196cab2c00a5f1f4a688f14f7adbfea3ceb5e72dd73eed8f

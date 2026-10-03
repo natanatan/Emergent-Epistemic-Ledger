@@ -1,0 +1,13 @@
+# A competing claim, created on the alternative-model branch.
+claim_id: EE-ALT-0001
+title: Persistence as information
+statement: >
+  Persistence is better described as conserved information than as retained
+  relational structure.
+claim_type: [HYPOTHESIS]
+ontology_level: informational
+domain: ontology
+dependencies: [EE-REL-0001]
+relations:
+  - relation: ALTERNATIVE_TO
+    target: { kind: claim, id: EE-REL-0003 }

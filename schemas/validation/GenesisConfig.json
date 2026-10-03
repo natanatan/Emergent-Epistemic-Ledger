@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GenesisConfig",
+  "type": "object",
+  "required": [
+    "block_sealer",
+    "genesis_time",
+    "network",
+    "principles",
+    "validators"
+  ],
+  "properties": {
+    "block_sealer": {
+      "description": "Validator that seals blocks on the development network (decisions D-006).",
+      "type": "string"
+    },
+    "canonicalization": {
+      "default": {
+        "maximum_unresolved_critical_objections": 0,
+        "minimum_independent_replications": 2,
+        "minimum_validators": 2
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CanonicalizationRule"
+        }
+      ]
+    },
+    "genesis_time": {
+      "description": "Timestamp of the genesis block.",
+      "type": "integer",
+      "format": "int64"
+    },
+    "network": {
+      "$ref": "#/definitions/NetworkConfig"
+    },
+    "principles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/GenesisValidator"
+      }
+    }
+  },
+  "definitions": {
+    "CanonicalizationRule": {
+      "description": "Configurable development thresholds. These are not claimed to be scientifically optimal.",
+      "type": "object",
+      "required": [
+        "maximum_unresolved_critical_objections",
+        "minimum_independent_replications",
+        "minimum_validators"
+      ],
+      "properties": {
+        "maximum_unresolved_critical_objections": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "minimum_independent_replications": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "minimum_validators": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      }
+    },
+    "GenesisValidator": {
+      "description": "A validator as written in the genesis file: the public key is given, and the identity id is derived from it.",
+      "type": "object",
+      "required": [
+        "activated_at",
+        "domains",
+        "public_key",
+        "validator_id"
+      ],
+      "properties": {
+        "activated_at": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expires_at": {
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "public_key": {
+          "description": "Ed25519 public key, hex.",
+          "type": "string"
+        },
+        "validator_class": {
+          "default": "GENESIS",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ValidatorClass"
+            }
+          ]
+        },
+        "validator_id": {
+          "type": "string"
+        }
+      }
+    },
+    "NetworkConfig": {
+      "type": "object",
+      "required": [
+        "name",
+        "protocol_version"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "protocol_version": {
+          "type": "string"
+        }
+      }
+    },
+    "ValidatorClass": {
+      "type": "string",
+      "enum": [
+        "GENESIS",
+        "EARNED"
+      ]
+    }
+  }
+}

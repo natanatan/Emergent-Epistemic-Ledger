@@ -1,0 +1,11 @@
+# `eel claim revise examples/claim-revision.yaml` adds version 2 of EE-REL-0003.
+claim_id: EE-REL-0003
+title: Persistence
+statement: >
+  Some relational configurations retain their distinctions across repeated
+  local updates and perturbations of the relations that compose them.
+claim_type: [PROPOSITION, HYPOTHESIS]
+ontology_level: relational
+domain: ontology
+dependencies: [EE-REL-0001, EE-REL-0002]
+rationale: Answers OBJ-0001 by stating persistence as retention under perturbation.

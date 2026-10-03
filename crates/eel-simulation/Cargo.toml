@@ -1,0 +1,12 @@
+[package]
+name = "eel-simulation"
+description = "Deterministic integer relational-graph simulator and replay verification for EEL"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+eel-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true

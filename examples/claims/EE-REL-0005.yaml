@@ -1,0 +1,12 @@
+claim_id: EE-REL-0005
+title: Identity
+statement: >
+  The identity of a configuration is the retention of its distinctions
+  across transformations that preserve its boundary.
+claim_type: [DEFINITION]
+ontology_level: relational
+domain: ontology
+dependencies: [EE-REL-0003, EE-REL-0004]
+relations:
+  - relation: REFINES
+    target: { kind: claim, id: EE-REL-0001 }

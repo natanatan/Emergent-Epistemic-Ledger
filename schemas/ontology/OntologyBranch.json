@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OntologyBranch",
+  "type": "object",
+  "required": [
+    "branch_id",
+    "created_by",
+    "name"
+  ],
+  "properties": {
+    "branch_id": {
+      "type": "string"
+    },
+    "created_by": {
+      "$ref": "#/definitions/Hash"
+    },
+    "fork_event": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Hash"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "parent_branch": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "definitions": {
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
