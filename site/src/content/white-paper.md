@@ -7,7 +7,7 @@ date: "October 2026"
 
 ## Abstract
 
-Human knowledge is still organized primarily around documents. Research papers, journals, books, databases, citations, conferences, repositories and institutional archives preserve enormous amounts of information, but they poorly represent the actual structure by which knowledge evolves.
+The historical extent of human knowledge is still organized primarily around printed and digital documents. Research papers, journals, books, databases, citations, conferences, repositories and institutional archives preserve enormous amounts of information, but they poorly represent the actual structure by which knowledge evolves.
 
 A scientific claim is rarely an isolated document. It depends on prior propositions, evidence, assumptions, definitions, models, experiments, objections, replications, failures, revisions and competing interpretations. Yet these relationships remain fragmented across publications and institutions.
 
