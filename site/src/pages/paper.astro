@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { Content, frontmatter, getHeadings } from '../content/white-paper.md';
+
+const headings = getHeadings().filter((h) => h.depth === 2);
+---
+<Base title="White paper" description="The Emergent Epistemic Ledger white paper: an open, evolutionary infrastructure for collective knowledge.">
+  <p class="kicker">{frontmatter.version} · {frontmatter.date}</p>
+  <h1>{frontmatter.title}</h1>
+  <p class="lede">{frontmatter.subtitle}</p>
+
+  <details class="toc">
+    <summary>Contents</summary>
+    <ol>
+      {headings.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+    </ol>
+  </details>
+
+  <article class="prose">
+    <Content />
+  </article>
+</Base>

@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const site = 'Emergent Epistemic Ledger';
+const { title, description = 'An open ledger for scientific claims: signed, append-only records of claims, evidence, objections and replications. Ledger agreement is not truth agreement.' } = Astro.props;
+const pageTitle = title ? `${title} · EEL` : site;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const nav = [
+  { href: '/paper', label: 'White paper' },
+  { href: '/code', label: 'Code' },
+  { href: '/principles', label: 'Principles' },
+  { href: '/about', label: 'About' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="/" aria-label="Emergent Epistemic Ledger, home">
+          <span class="mark" aria-hidden="true">EEL</span>
+          <span class="brand-name">Emergent Epistemic Ledger</span>
+        </a>
+        <nav aria-label="Main">
+          <ul>
+            {nav.map((item) => (
+              <li><a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <p>Ledger consensus is not truth consensus.</p>
+        <p>
+          <a href="https://github.com/natanatan/Emergent-Epistemic-Ledger">Source on GitHub</a> · Apache-2.0 ·
+          Part of <a href="https://emergentexistence.com">Emergent Existence</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

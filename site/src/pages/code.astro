@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+const repo = 'https://github.com/natanatan/Emergent-Epistemic-Ledger';
+const blob = `${repo}/blob/main`;
+const crates = [
+  ['eel-core', 'Typed ids, canonical serialization, every protocol object and event'],
+  ['eel-crypto', 'Ed25519 identities, event signing and verification, local keystore'],
+  ['eel-ontology', 'The state projector: every validation rule and the projected ontology'],
+  ['eel-ledger', 'Append-only event log, Merkle trees, blocks, historical and branch reconstruction'],
+  ['eel-validation', 'Genesis validators, domain authority, admission and reputation, canonicalization rules'],
+  ['eel-simulation', 'Deterministic relational-graph simulator and replay verification'],
+  ['eel-xchange', 'Research-request structures and outcome-independent credit (no currency)'],
+  ['eel-storage', 'SQLite persistence, append-only at the database level'],
+  ['eel-api', 'REST API and the eel-node binary'],
+  ['eel-cli', 'The eel command-line client'],
+];
+---
+<Base title="Code" description="The EEL prototype: a Rust workspace implementing the ledger, ontology projector, validation and deterministic simulation.">
+  <p class="kicker">Open source · Apache-2.0</p>
+  <h1>Code</h1>
+  <p class="lede">
+    A locally runnable Rust prototype. Claims, evidence, objections, replications and simulations are
+    signed events in an append-only ledger, and every node projects the same ontology from them.
+  </p>
+  <div class="actions">
+    <a class="button primary" href={repo}>Open the repository</a>
+    <a class="button" href={`${blob}/ARCHITECTURE.md`}>Read the architecture</a>
+  </div>
+
+  <h2>Run it</h2>
+  <p>You need a recent stable Rust toolchain.</p>
+  <pre><code>git clone {repo}.git
+cd Emergent-Epistemic-Ledger
+cargo test                                   # the full test suite, including a three-node test
+cargo run --bin eel -- identity create       # a local identity on the development network
+cargo run --bin eel -- claim create examples/claim.yaml
+cargo run --bin eel -- ontology graph
+cargo run --bin eel-node -- start            # REST API on http://127.0.0.1:7878</code></pre>
+  <p>
+    <code>examples/walkthrough.sh</code> runs every success criterion of the specification through the CLI:
+    two researchers, a claim, an objection, a revision, competing branches, domain-limited validation,
+    a research request, a simulation replayed by two validators, independent replications, and a
+    canonicalization that needs two validators.
+  </p>
+
+  <h2>What is where</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Crate</th><th scope="col">Contents</th></tr></thead>
+      <tbody>
+        {crates.map(([name, what]) => (
+          <tr><td><a href={`${repo}/tree/main/crates/${name}`}><code>{name}</code></a></td><td>{what}</td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Documentation</h2>
+  <ul>
+    <li><a href={`${blob}/docs/protocol.md`}>Protocol</a>: events, signatures and how the ontology is projected</li>
+    <li><a href={`${blob}/docs/decisions.md`}>Decisions</a>: every place the specification left open, and the choice made</li>
+    <li><a href={`${blob}/docs/threat-model.md`}>Threat model</a></li>
+    <li><a href={`${blob}/ROADMAP.md`}>Roadmap</a></li>
+    <li><a href={`${blob}/CONTRIBUTING.md`}>Contributing</a></li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>Prototype only.</strong> The development network's validator keys are public. Do not use EEL for anything that needs security.</p>
+  </div>
+</Base>
